@@ -14,45 +14,6 @@ Overview: Making development easier with AI-powered prompting assistance!
 
 The Dev Prompter Server provides development assistance through structured prompting. It implements the Model Context Protocol (MCP) using the @modelcontextprotocol/sdk package to offer a set of carefully crafted prompts for common development tasks.
 
-## Request Flow Diagram
-
-```mermaid
-sequenceDiagram
-    participant Claude as Claude
-    participant MCP as MCP Transport
-    participant Server as Dev Prompter Server
-    participant Loader as Template Loader
-    participant Generator as Prompt Generator
-    participant Validator as Prompt Validator
-
-    Claude->>MCP: User selects prompt template
-    MCP->>Server: listPrompts request
-    Server->>Loader: getAvailableTemplates()
-    Loader-->>Server: template metadata
-    Server-->>MCP: listPrompts response
-    MCP-->>Claude: Display available prompts
-
-    Claude->>MCP: User selects specific prompt
-    MCP->>Server: getPromptMetadata request
-    Server->>Loader: getTemplateMetadata(id)
-    Loader-->>Server: template metadata
-    Server-->>MCP: getPromptMetadata response
-    MCP-->>Claude: Show prompt form with arguments
-
-    Claude->>MCP: User submits filled prompt form
-    MCP->>Server: executePrompt request
-    Server->>Validator: validatePromptArgs(args)
-    Validator-->>Server: validated args
-    Server->>Loader: getTemplate(id)
-    Loader-->>Server: template content
-    Server->>Generator: generatePrompt(template, args)
-    Generator-->>Server: generated prompt text
-    Server-->>MCP: executePrompt response
-    MCP-->>Claude: Insert prompt into conversation
-
-    Claude->>Claude: Process prompt and generate response
-```
-
 ## Required Files
 
 | File                 | Purpose                                          |
